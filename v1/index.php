@@ -26,6 +26,7 @@ include_once '../controller/UserController.php';
  * si lo usas debes eliminar el include_once del file Config ya que le mismo está incluido en DBHandler 
  **/
 //require_once '../include/DbHandler.php'; 
+define('API_KEY','3d524a53c110e4c22463b10ed32cef9d');
 
 require '../libs/Slim/Slim.php'; 
 \Slim\Slim::registerAutoloader(); 
@@ -47,43 +48,42 @@ $app->get('/getUsers', function() {
                     array('make'=>'Toyota', 'model'=>'Corolla', 'year'=>'2006', 'MSRP'=>'18,000'),
                     array('make'=>'Nissan', 'model'=>'Sentra', 'year'=>'2010', 'MSRP'=>'22,000')
             );
-    
+    */
     $response["error"] = false;
-    $response["message"] = "Autos cargados: " . count($autos); //podemos usar count() para conocer el total de valores de un array
-    $response["autos"] = $autos;*/
+    $response["message"] = "Usuarios cargados: " . count($respuesta); //podemos usar count() para conocer el total de valores de un array
+    $response["usuarios"] = $respuesta;
 
 
-    echoResponse(200, $respuesta);
+    echoResponse(200, $response);
 });
 
 /* Usando POST para crear un auto */
-
-$app->post('/auto', 'authenticate', function() use ($app) {
+$app->post('/login', 'authenticate', function() use ($app) {
     // check for required params
-    verifyRequiredParams(array('make', 'model', 'year', 'msrp'));
-
-    $response = array();
-    //capturamos los parametros recibidos y los almacxenamos como un nuevo array
-    $param['make']  = $app->request->post('make');
-    $param['model'] = $app->request->post('model');
-    $param['year']  = $app->request->post('year');
-    $param['msrp']  = $app->request->post('msrp');
-    
+    //verifyRequiredParams(array('make', 'model', 'year', 'msrp'));
+    $userController = new UserController();
+    //echo "$app";
+    $datosSolicitud = json_decode(file_get_contents("php://input"));
+    $respuesta = $userController -> login($datosSolicitud->email, $datosSolicitud->password);
     /* Podemos inicializar la conexion a la base de datos si queremos hacer uso de esta para procesar los parametros con DB */
     //$db = new DbHandler();
 
-    /* Podemos crear un metodo que almacene el nuevo auto, por ejemplo: */
-    //$auto = $db->createAuto($param);
-
-    if ( is_array($param) ) {
+    /* Podemos crear un metodo que almacene el nuevo auto, por ejemplo: 
+    //$auto = $db->createAuto($param);*/
+    if(count($respuesta) == 1){
         $response["error"] = false;
-        $response["message"] = "Auto creado satisfactoriamente!";
-        $response["auto"] = $param;
-    } else {
+        $response["message"] = "login";
+        $response["user"] = $respuesta;
+
+        echoResponse(201, $response);
+    }else{
         $response["error"] = true;
-        $response["message"] = "Error al crear auto. Por favor intenta nuevamente.";
+        $response["message"] = "no existe";
+        $response["user"] = null;
+
+        echoResponse(201, $response);
     }
-    echoResponse(201, $response);
+    
 });
 
 /* corremos la aplicación */

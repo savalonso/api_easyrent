@@ -1,18 +1,18 @@
 <?php 
 
 	class User{
-		private $id;
-		private $name;
-		private $last_name;
-		private $identification_card;
-    	private $phone_number;
-		private $second_number;
-		private $email;
-		private $password;
-		private $acount_number;
-		private $address;
-		private $user_type_id;
-		private $user_type_name;
+		public $id;
+		public $name;
+		public $last_name;
+		public $identification_card;
+    	public $phone_number;
+		public $second_number;
+		public $email;
+		public $password;
+		public $acount_number;
+		public $address;
+		public $user_type_id;
+		public $user_type_name;
 
 		public function dUsuario(){}
 
