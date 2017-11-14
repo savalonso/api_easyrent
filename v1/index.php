@@ -21,6 +21,7 @@ header('Content-Type: text/html; charset=utf-8');
 header('P3P: CP="IDC DSP COR CURa ADMa OUR IND PHY ONL COM STA"'); 
 
 include_once '../controller/UserController.php';
+include_once '../controller/ApartamentController.php';
 
 /* Puedes utilizar este file para conectar con base de datos incluido en este demo; 
  * si lo usas debes eliminar el include_once del file Config ya que le mismo está incluido en DBHandler 
@@ -55,6 +56,30 @@ $app->get('/getUsers', function() {
 
 
     echoResponse(200, $response);
+});
+/*Metodo para otener las provincias*/
+$app->get('/getprovince', function() {
+    
+    $ApartamentController = new ApartamentController();
+    $respuesta = $ApartamentController -> get_all_Province();
+    
+    
+    echoResponse(200, $respuesta);
+});
+/*Metodo para otener los cantones*/
+$app->get('/getcanton', function() {
+    
+    $ApartamentController = new ApartamentController();
+    $respuesta = $ApartamentController -> get_all_Canton();
+    
+    echoResponse(200, $respuesta);
+});
+$app->get('/getdistric', function() {
+    
+    $ApartamentController = new ApartamentController();
+    $respuesta = $ApartamentController -> get_all_Distric();
+    
+    echoResponse(200, $respuesta);
 });
 
 /* Usando POST para crear un auto */
