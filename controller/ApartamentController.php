@@ -28,7 +28,7 @@
 			include_once ('../data/ApartamentData.php');
 			$ApartamentData = new ApartamentData();
 			$imageDecode= ApartamentController::decode_image($Image);
-			$response = $ApartamentData-> insert_apartament($capacity,$lessee_id,$status_id,$district_id,$is_active,$price,$name,$description,$adress,$imageDecode);
+			$response = $ApartamentData->insert_apartament($capacity,$lessee_id,$status_id,$district_id,$is_active,$price,$name,$description,$adress,$imageDecode);
 
 			return $response;
  		}

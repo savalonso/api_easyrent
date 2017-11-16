@@ -94,16 +94,12 @@
 
 			$con = new dtConnection;
 			$conexion = $con->conect();
-
-    		$result = $conexion->query("CALL sp_add_apartment('$capacity','$lessee_id','$status_id','$district_id','$is_active','$price','$name','$description','$adress','$imageDecode')");
+			
+    		$result = $conexion->query("CALL sp_add_apartment('$name','$description','$capacity','$lessee_id','$status_id','$adress','$price','$imageDecode','$district_id')");
 
 			mysqli_close($conexion);
 
-			if (!$result){
-				return false;
-			} else {
-				return true;
-			}
+			return $result;
 
 		}
 
