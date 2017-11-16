@@ -89,6 +89,23 @@
 				return $lista;
 			}
 		}
+
+		function insert_apartament($capacity,$lessee_id,$status_id,$district_id,$is_active,$price,$name,$description,$adress,$imageDecode){
+
+			$con = new dtConnection;
+			$conexion = $con->conect();
+
+    		$result = $conexion->query("CALL sp_add_apartment('$capacity','$lessee_id','$status_id','$district_id','$is_active','$price','$name','$description','$adress','$imageDecode')");
+
+			mysqli_close($conexion);
+
+			if (!$result){
+				return false;
+			} else {
+				return true;
+			}
+
+		}
 	}
 
 ?>

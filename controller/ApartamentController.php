@@ -28,25 +28,17 @@
 			include_once ('../data/ApartamentData.php');
 			$ApartamentData = new ApartamentData();
 			$imageDecode= ApartamentController::decode_image($Image);
-			//$response = $ApartamentData-> insert_apartament($capacity,$lessee_id,$status_id,$district_id,$is_active,$price,$name,$description,$adress,$Image);
-			return true;
+			$response = $ApartamentData-> insert_apartament($capacity,$lessee_id,$status_id,$district_id,$is_active,$price,$name,$description,$adress,$imageDecode);
+
+			return $response;
  		}
  		function decode_image($Image){
  			
 			$imageFile = base64_decode($Image);
 			$image_name = strftime( "%Y%m%d%H%M%S", time() );
 			file_put_contents("../imgApartamentos/"."apartment".$image_name.".png",$imageFile);
-
-			/*//eliminamos data:image/png; y base64, de la cadena que tenemos
-			//hay otras formas de hacerlo    
-			list(, $Base64Img) = explode(';', $Base64Img);
-			list(, $Base64Img) = explode(',', $Base64Img);
-			//Decodificamos $Base64Img codificada en base64.
-			$Base64Img = base64_decode($Base64Img);
-			//escribimos la información obtenida en un archivo llamado 
-			//unodepiera.png para que se cree la imagen correctamente
-			file_put_contents('unodepiera.png', $Base64Img); 
-			echo "<img src='unodepiera.png' alt='unodepiera' />";*/
+			$finalImageName = "apartment".$image_name.".png";
+			return $finalImageName;
  		}
 	}
 
