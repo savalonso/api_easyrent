@@ -106,6 +106,43 @@
 			}
 
 		}
+
+		function get_apartment_by_lessee($id){
+
+			include_once("../model/Apartment.php");
+			$con = new dtConnection;
+			$conexion = $con->conect();
+
+			$query = "CALL sp_get_apartment_by_lessee('$id')";
+			$result = mysqli_query($conexion, $query);
+			$lista = array();
+			while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
+				$Apartment = new Apartment();
+					
+				$Apartment->setId($row['id']);
+				$Apartment->setName($row['name']);
+	    		$Apartment->setDescription($row['description']);
+		      	$Apartment->setCapacity($row['capacity']);
+		      	$Apartment->setAdress($row['adress']);
+		      	$Apartment->setStatus_id($row['status_id']);
+		      	$Apartment->setStatusName($row['statusName']);
+		      	$Apartment->setDistric_id($row['distric_id']);
+		      	$Apartment->setDistric($row['distric']);
+		      	$Apartment->setPrice($row['price']);
+		      	$Apartment->setImage($row['Image']);
+		      	
+				array_push($lista, $Apartment);
+			}
+
+			mysqli_free_result($result);
+			mysqli_close($conexion);
+
+			if (!$result){
+				return false;
+			} else {
+				return $lista;
+			}
+		}
 	}
 
 ?>

@@ -40,6 +40,14 @@
 			$finalImageName = "apartment".$image_name.".png";
 			return $finalImageName;
  		}
+
+ 		function get_apartment_by_lessee($id){
+			include_once ('../data/ApartamentData.php');
+			$ApartamentData = new ApartamentData();
+			$apartmentList = $ApartamentData -> get_apartment_by_lessee($id);
+			return $apartmentList;
+		}
+
 	}
 
 ?>
