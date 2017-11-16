@@ -110,6 +110,23 @@ $app->post('/login', 'authenticate', function() use ($app) {
     }
     
 });
+/* Usando POST para crear un auto */
+$app->post('/crearapartamento', function() use ($app) {
+    // check for required params
+    //verifyRequiredParams(array('make', 'model', 'year', 'msrp'));
+    $ApartamentController = new ApartamentController();
+    //echo "$app";
+    $datosSolicitud = json_decode(file_get_contents("php://input"));
+   $respuesta = $ApartamentController -> insert_apartament($datosSolicitud->capacity, $datosSolicitud->lessee_id,$datosSolicitud->status_id,
+        $datosSolicitud->district_id,$datosSolicitud->is_active,$datosSolicitud->price,$datosSolicitud->name,
+        $datosSolicitud->description,$datosSolicitud->adress,$datosSolicitud->Image);
+    /* Podemos inicializar la conexion a la base de datos si queremos hacer uso de esta para procesar los parametros con DB */
+    //$db = new DbHandler();
+    /* Podemos crear un metodo que almacene el nuevo auto, por ejemplo: 
+    //$auto = $db->createAuto($param);*/
+   
+        echoResponse(201, $respuesta);
+});
 
 /* corremos la aplicación */
 $app->run();
