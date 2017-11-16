@@ -68,6 +68,7 @@
 		      	$User->setAcount_Number($row['acount_number']);
 		      	$User->setAddress($row['address']);
 		      	$User->setUser_Type_Name($row['type']);
+		      	$User->setUser_Type_Id($row['user_type_id']);
 		      	
 				array_push($lista, $User);
 			}
@@ -79,6 +80,18 @@
 			} else {
 				return $lista;
 			}
+		}
+
+		function create_user($name, $last_name, $identification_card, $phone_number, $second_number, $email, $password, $account_number, $address, $user_type_id){
+
+			include_once("../model/User.php");
+			$con = new dtConnection;
+			$conexion = $con->conect();
+
+			$query = "CALL sp_create_user('$name', '$last_name', '$identification_card', '$phone_number', '$second_number', '$email', '$password', '$account_number', '$address', $user_type_id)";
+			$result = mysqli_query($conexion, $query);
+			mysqli_close($conexion);
+			return $result;
 		}
 	}	
 

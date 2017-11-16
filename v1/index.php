@@ -50,12 +50,12 @@ $app->get('/getUsers', function() {
                     array('make'=>'Nissan', 'model'=>'Sentra', 'year'=>'2010', 'MSRP'=>'22,000')
             );
     */
-    $response["error"] = false;
+    /*$response["error"] = false;
     $response["message"] = "Usuarios cargados: " . count($respuesta); //podemos usar count() para conocer el total de valores de un array
-    $response["usuarios"] = $respuesta;
+    $response["usuarios"] = $respuesta;*/
 
 
-    echoResponse(200, $response);
+    echoResponse(200, $respuesta);
 });
 /*Metodo para otener las provincias*/
 $app->get('/getprovince', function() {
@@ -83,7 +83,7 @@ $app->get('/getdistric', function() {
 });
 
 /* Usando POST para crear un auto */
-$app->post('/login', 'authenticate', function() use ($app) {
+$app->post('/login', function() use ($app) {
     // check for required params
     //verifyRequiredParams(array('make', 'model', 'year', 'msrp'));
     $userController = new UserController();
@@ -96,11 +96,8 @@ $app->post('/login', 'authenticate', function() use ($app) {
     /* Podemos crear un metodo que almacene el nuevo auto, por ejemplo: 
     //$auto = $db->createAuto($param);*/
     if(count($respuesta) == 1){
-        $response["error"] = false;
-        $response["message"] = "login";
-        $response["user"] = $respuesta;
 
-        echoResponse(201, $response);
+        echoResponse(201, $respuesta);
     }else{
         $response["error"] = true;
         $response["message"] = "no existe";
@@ -126,6 +123,13 @@ $app->post('/crearapartamento', function() use ($app) {
     //$auto = $db->createAuto($param);*/
    
         echoResponse(201, $respuesta);
+});
+
+$app->post('/addUser', function() use ($app) {
+    $userController = new UserController();
+    $datosSolicitud = json_decode(file_get_contents("php://input"));
+    $respuesta = $userController -> create_user($datosSolicitud->name, $datosSolicitud->last_name, $datosSolicitud->identification_card, $datosSolicitud->phone_number, $datosSolicitud->second_number, $datosSolicitud->email, $datosSolicitud->password, $datosSolicitud->account_number, $datosSolicitud->address, $datosSolicitud->user_type_id);
+    echoResponse(201, $respuesta);
 });
 
 /* corremos la aplicación */
